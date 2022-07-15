@@ -1,28 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shop_max/screens/product_detail_screen.dart';
 
-class ProductItem extends StatelessWidget {
-  final String id;
-  final String title;
-  final String imageUrl;
+import '../providers/product.dart';
 
-  // ignore: use_key_in_widget_constructors
-  const ProductItem(this.id, this.title, this.imageUrl);
+// ignore: use_key_in_widget_constructors
+class ProductItem extends StatelessWidget {
+  // final String id;
+  // final String title;
+  // final String imageUrl;
+
+  // // ignore: use_key_in_widget_constructors
+  // const ProductItem(this.id, this.title, this.imageUrl);
 
   @override
   Widget build(BuildContext context) {
+    final product = Provider.of<Product>(context);
+    //Provider.of<Product>(context, listen: false); - ne slušamo promjene
     return ClipRRect(
       borderRadius: BorderRadius.circular(10.0),
       child: GridTile(
         footer: GridTileBar(
           backgroundColor: Colors.black87,
           leading: IconButton(
-            icon: const Icon(Icons.favorite),
+            icon: Icon(
+              product.isFavorite ? Icons.favorite : Icons.favorite_border,
+            ),
             color: Theme.of(context).colorScheme.secondary,
-            onPressed: () {},
+            onPressed: () {
+              product.toggleFavoriteStatus();
+            },
           ),
           title: Text(
-            title,
+            product.title,
             textAlign: TextAlign.center,
           ),
           trailing: IconButton(
@@ -35,7 +45,7 @@ class ProductItem extends StatelessWidget {
           onTap: () {
             Navigator.of(context).pushNamed(
               ProductDetailScreen.routeName,
-              arguments: id,
+              arguments: product.id,
             );
             // Navigator.of(context).push(
             //   MaterialPageRoute(
@@ -44,7 +54,7 @@ class ProductItem extends StatelessWidget {
             // );
           },
           child: Image.network(
-            imageUrl,
+            product.imageUrl,
             fit: BoxFit.cover,
           ),
         ),
