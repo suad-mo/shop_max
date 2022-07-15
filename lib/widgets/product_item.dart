@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_max/screens/product_detail_screen.dart';
 
+import '../screens/product_detail_screen.dart';
 import '../providers/product.dart';
 
 // ignore: use_key_in_widget_constructors
@@ -17,9 +17,7 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
     //Provider.of<Product>(context, listen: false); - ne slušamo promjene
-    return
-        // Consumer<Product>(builder: ctx, product, child) =>
-        ClipRRect(
+    return ClipRRect(
       borderRadius: BorderRadius.circular(10.0),
       child: GridTile(
         footer: GridTileBar(
