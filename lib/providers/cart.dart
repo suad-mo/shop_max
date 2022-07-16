@@ -1,6 +1,7 @@
 // import 'package:flutter/widgets.dart';
 // or
 import 'package:flutter/foundation.dart';
+//import 'package:flutter/material.dart';
 
 class CartItem {
   final String id;
@@ -8,11 +9,14 @@ class CartItem {
   final int quantity;
   final double price;
 
+  //final String productId;
+
   CartItem({
     required this.id,
     required this.title,
     required this.quantity,
     required this.price,
+    //required this.productId
   });
 }
 
@@ -61,6 +65,11 @@ class Cart with ChangeNotifier {
         ),
       );
     }
+    notifyListeners();
+  }
+
+  void removeItem(String productId) {
+    _items.remove(productId);
     notifyListeners();
   }
 }
