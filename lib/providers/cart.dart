@@ -17,6 +17,7 @@ class CartItem {
 }
 
 class Cart with ChangeNotifier {
+  // ignore: prefer_final_fields
   Map<String, CartItem> _items = {};
 
   Map<String, CartItem> get items {
@@ -24,8 +25,15 @@ class Cart with ChangeNotifier {
   }
 
   int get itemCount {
-    // ignore: unnecessary_null_comparison
     return _items.length;
+  }
+
+  double get totalAmount {
+    var total = 0.0;
+    _items.forEach((key, cartItem) {
+      total += cartItem.price * cartItem.quantity;
+    });
+    return total;
   }
 
   void addItem(
