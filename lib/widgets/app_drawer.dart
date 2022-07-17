@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../screens/user_products_screen.dart';
 import '../screens/orders_screen.dart';
 
 // ignore: use_key_in_widget_constructors
@@ -28,6 +29,15 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.of(context)
                   .pushReplacementNamed(OrdersScreen.routeName);
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.edit),
+            title: const Text('Menage Products'),
+            onTap: () {
+              Navigator.of(context)
+                  .pushReplacementNamed(UserProductsScren.routeName);
             },
           ),
         ],
