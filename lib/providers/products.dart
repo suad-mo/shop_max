@@ -98,6 +98,10 @@ class Products with ChangeNotifier {
       _items.add(newProduct);
       // _items.insert(0, newProduct);//umetanje na početak liste
       notifyListeners();
+    }).catchError((error) {
+      // ignore: avoid_print
+      print(error);
+      throw error;
     });
   }
 
