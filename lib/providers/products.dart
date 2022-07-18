@@ -70,24 +70,22 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  Future<void> addProduct(Product product) {
+  Future<void> addProduct(Product product) async {
     final url = Uri.https(
       'shop-flutter-max-default-rtdb.europe-west1.firebasedatabase.app',
       'products.json',
     );
-    return http
-        .post(
-      url,
-      body: json.encode({
-        'title': product.title,
-        'description': product.description,
-        'imageUrl': product.imageUrl,
-        'price': product.price,
-        'isFavorite': product.isFavorite,
-      }),
-    )
-        .then((response) {
-      //print(json.decode(response.body));
+    try {
+      final response = await http.post(
+        url,
+        body: json.encode({
+          'title': product.title,
+          'description': product.description,
+          'imageUrl': product.imageUrl,
+          'price': product.price,
+          'isFavorite': product.isFavorite,
+        }),
+      );
       final newProduct = Product(
         title: product.title,
         description: product.description,
@@ -98,11 +96,20 @@ class Products with ChangeNotifier {
       _items.add(newProduct);
       // _items.insert(0, newProduct);//umetanje na početak liste
       notifyListeners();
-    }).catchError((error) {
+    } catch (error) {
       // ignore: avoid_print
       print(error);
+      // ignore: use_rethrow_when_possible
       throw error;
-    });
+    }
+    // .then((response) {
+    //print(json.decode(response.body));
+
+    // }).catchError((error) {
+    //   // ignore: avoid_print
+    //   print(error);
+    //   throw error;
+    // });
   }
 
   void updateProduct(String id, Product newProduct) {
