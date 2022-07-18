@@ -75,24 +75,30 @@ class Products with ChangeNotifier {
       'shop-flutter-max-default-rtdb.europe-west1.firebasedatabase.app',
       'products.json',
     );
-    http.post(url,
-        body: json.encode({
-          'title': product.title,
-          'description': product.description,
-          'imageUrl': product.imageUrl,
-          'price': product.price,
-          'isFavorite': product.isFavorite,
-        }));
-    final newProduct = Product(
-      title: product.title,
-      description: product.description,
-      price: product.price,
-      imageUrl: product.imageUrl,
-      id: DateTime.now().toString(),
-    );
-    _items.add(newProduct);
-    // _items.insert(0, newProduct);//umetanje na početak liste
-    notifyListeners();
+    http
+        .post(
+      url,
+      body: json.encode({
+        'title': product.title,
+        'description': product.description,
+        'imageUrl': product.imageUrl,
+        'price': product.price,
+        'isFavorite': product.isFavorite,
+      }),
+    )
+        .then((response) {
+      //print(json.decode(response.body));
+      final newProduct = Product(
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl,
+        id: json.decode(response.body)['name'],
+      );
+      _items.add(newProduct);
+      // _items.insert(0, newProduct);//umetanje na početak liste
+      notifyListeners();
+    });
   }
 
   void updateProduct(String id, Product newProduct) {
