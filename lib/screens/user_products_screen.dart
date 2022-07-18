@@ -36,6 +36,9 @@ class UserProductsScren extends StatelessWidget {
                 productsData.items[i].id,
                 productsData.items[i].title,
                 productsData.items[i].imageUrl,
+                // () {
+                //   productsData.deleteProduct(productsData.items[i].id);
+                // },
               ),
               const Divider(),
             ],
