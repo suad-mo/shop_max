@@ -21,10 +21,21 @@ class ProductOverviewScren extends StatefulWidget {
 
 class _ProductOverviewScrenState extends State<ProductOverviewScren> {
   var _showOnlyFavorites = false;
+  //var _isInit = true; >> Netreba dovoljno je uključiti (listen: false)
+  var _isLoading = false;
 
   @override
   void initState() {
-    Provider.of<Products>(context, listen: false).fetchAndSetProducts();
+    setState(() {
+      _isLoading = true;
+    });
+    Provider.of<Products>(context, listen: false)
+        .fetchAndSetProducts()
+        .then((_) {
+      setState(() {
+        _isLoading = false;
+      });
+    });
     super.initState();
   }
 
@@ -78,7 +89,11 @@ class _ProductOverviewScrenState extends State<ProductOverviewScren> {
         ],
       ),
       drawer: AppDrawer(),
-      body: ProductsGrid(_showOnlyFavorites),
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : ProductsGrid(_showOnlyFavorites),
     );
   }
 }
