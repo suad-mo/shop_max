@@ -91,7 +91,7 @@ class Products with ChangeNotifier {
       });
       _items = loadedProducts;
       // ignore: avoid_print
-      print(json.decode(response.body));
+      //print(json.decode(response.body));
       notifyListeners();
     } catch (error) {
       rethrow;
@@ -164,7 +164,21 @@ class Products with ChangeNotifier {
   }
 
   void deleteProduct(String id) {
-    _items.removeWhere((prod) => prod.id == id);
+    final url = Uri.https(
+      'shop-flutter-max-default-rtdb.europe-west1.firebasedatabase.app',
+      'products/$id',
+    );
+    final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
+    Product? existingProduct = _items[existingProductIndex];
+    http.delete(url).then((response) {
+      // ignore: avoid_print
+      print(response.statusCode);
+      existingProduct = null;
+    }).catchError((_) {
+      _items.insert(existingProductIndex, existingProduct!);
+      notifyListeners();
+    });
+    _items.removeAt(existingProductIndex);
     notifyListeners();
   }
 }
