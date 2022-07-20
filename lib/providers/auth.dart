@@ -8,13 +8,16 @@ class Auth with ChangeNotifier {
   late DateTime _expiryDate;
   late String userId;
 
-  Future<void> signup(String? email, String? password) async {
+  Future<void> _authenticate(
+    String email,
+    String password,
+    String urlSegment,
+  ) async {
     final url = Uri.https(
       'identitytoolkit.googleapis.com',
-      '/v1/accounts:signUp',
+      urlSegment,
       {'key': 'AIzaSyDxKiRcl2WbAEoSO32V91x1cEH6w79qYIk'},
     );
-    // const url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDxKiRcl2WbAEoSO32V91x1cEH6w79qYIk';
     final res = await http.post(
       url,
       body: json.encode({
@@ -25,6 +28,14 @@ class Auth with ChangeNotifier {
     );
     print(json.decode(res.body));
   }
+
+  Future<void> signup(String email, String password) async {
+    return _authenticate(email, password, '/v1/accounts:signUp');
+  }
+
+  Future<void> login(String email, String password) async {
+    return _authenticate(email, password, '/v1/accounts:signInWithPassword');
+  }
 }
 
 
@@ -32,3 +43,4 @@ class Auth with ChangeNotifier {
 //https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
 
 //AIzaSyDxKiRcl2WbAEoSO32V91x1cEH6w79qYIk
+//https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]
