@@ -18,7 +18,7 @@ class Auth with ChangeNotifier {
     final url = Uri.https(
       'identitytoolkit.googleapis.com',
       urlSegment,
-      {'key': 'AIzaSyDxKiRcl2WbAEoSO32V91x1cEH6w79qYIk'},
+      {'key': ''},
     );
     try {
       final res = await http.post(
