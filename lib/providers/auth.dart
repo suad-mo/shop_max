@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
 
+import '../config.dart';
 import '../models/http_exception.dart';
 
 class Auth with ChangeNotifier {
@@ -18,7 +19,7 @@ class Auth with ChangeNotifier {
     final url = Uri.https(
       'identitytoolkit.googleapis.com',
       urlSegment,
-      {'key': ''},
+      {'key': keyFirebase},
     );
     try {
       final res = await http.post(
@@ -46,10 +47,3 @@ class Auth with ChangeNotifier {
     return _authenticate(email, password, '/v1/accounts:signInWithPassword');
   }
 }
-
-
-//https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDxKiRcl2WbAEoSO32V91x1cEH6w79qYIk
-//https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
-
-//AIzaSyDxKiRcl2WbAEoSO32V91x1cEH6w79qYIk
-//https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]
