@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shop_max/providers/auth.dart';
 
 import '../models/http_exception.dart';
 import './product.dart';
@@ -45,6 +46,17 @@ class Products with ChangeNotifier {
   ];
 
   // var _showFavoritesOnly = false;
+  String? authToken;
+
+  //Products(this.authToken, this._items);
+
+  void update(Auth auth) {
+    if (auth.token != null) {
+      authToken = auth.token;
+    } else {
+      authToken = null;
+    }
+  }
 
   List<Product> get items {
     // if (_showFavoritesOnly) {
@@ -75,6 +87,7 @@ class Products with ChangeNotifier {
     final url = Uri.https(
       'shop-flutter-max-default-rtdb.europe-west1.firebasedatabase.app',
       'products.json',
+      {'auth': authToken},
     );
     try {
       final response = await http.get(url);
@@ -106,6 +119,7 @@ class Products with ChangeNotifier {
     final url = Uri.https(
       'shop-flutter-max-default-rtdb.europe-west1.firebasedatabase.app',
       'products.json',
+      {'auth': authToken},
     );
     try {
       final response = await http.post(
@@ -150,6 +164,7 @@ class Products with ChangeNotifier {
       final url = Uri.https(
         'shop-flutter-max-default-rtdb.europe-west1.firebasedatabase.app',
         'products/$id.json',
+        {'auth': authToken},
       );
       await http.patch(url,
           body: json.encode({
@@ -171,6 +186,7 @@ class Products with ChangeNotifier {
     final url = Uri.https(
       'shop-flutter-max-default-rtdb.europe-west1.firebasedatabase.app',
       'products/$id.json',
+      {'auth': authToken},
     );
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
     Product? existingProduct = _items[existingProductIndex];
