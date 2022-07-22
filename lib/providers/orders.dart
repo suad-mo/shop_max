@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
+import '../providers/auth.dart';
 import '../providers/cart.dart';
 
 class OrderItem {
@@ -23,6 +24,18 @@ class Orders with ChangeNotifier {
   // ignore: prefer_final_fields
   List<OrderItem> _orders = [];
 
+  String? authToken;
+
+  //Products(this.authToken, this._items);
+
+  void update(Auth auth) {
+    if (auth.token != null) {
+      authToken = auth.token;
+    } else {
+      authToken = null;
+    }
+  }
+
   List<OrderItem> get orders {
     return [..._orders];
   }
@@ -31,6 +44,7 @@ class Orders with ChangeNotifier {
     final url = Uri.https(
       'shop-flutter-max-default-rtdb.europe-west1.firebasedatabase.app',
       'orders.json',
+      {'auth': authToken},
     );
     try {
       final res = await http.get(url);
@@ -69,6 +83,7 @@ class Orders with ChangeNotifier {
     final url = Uri.https(
       'shop-flutter-max-default-rtdb.europe-west1.firebasedatabase.app',
       'orders.json',
+      {'auth': authToken},
     );
     final timeStamp = DateTime.now();
     final response = await http.post(
