@@ -7,9 +7,22 @@ import '../config.dart';
 import '../models/http_exception.dart';
 
 class Auth with ChangeNotifier {
-  late String _token;
-  late DateTime _expiryDate;
-  late String userId;
+  String? _token;
+  DateTime? _expiryDate;
+  String? _userId;
+
+  bool get isAuth {
+    return token != null;
+  }
+
+  String? get token {
+    if (_expiryDate != null &&
+        _expiryDate!.isAfter(DateTime.now()) &&
+        _token != null) {
+      return _token;
+    }
+    return null;
+  }
 
   Future<void> _authenticate(
     String email,
@@ -34,6 +47,16 @@ class Auth with ChangeNotifier {
       if (resData['error'] != null) {
         throw HttpException(resData['error']['message']);
       }
+      _token = resData['idToken'];
+      _userId = resData['localId'];
+      _expiryDate = DateTime.now().add(
+        Duration(
+          seconds: int.parse(
+            resData['expiresIn'],
+          ),
+        ),
+      );
+      notifyListeners();
     } catch (error) {
       rethrow;
     }
