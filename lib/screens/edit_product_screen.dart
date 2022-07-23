@@ -23,6 +23,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     description: '',
     price: 0,
     imageUrl: '',
+    userId: '',
   );
   // ignore: prefer_final_fields
   Map<String, String> _initValue = {
@@ -181,6 +182,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             imageUrl: _editedProduct.imageUrl,
                             id: _editedProduct.id,
                             isFavorite: _editedProduct.isFavorite,
+                            userId: _editedProduct.userId,
                           );
                         },
                       ),
@@ -214,6 +216,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             imageUrl: _editedProduct.imageUrl,
                             id: _editedProduct.id,
                             isFavorite: _editedProduct.isFavorite,
+                            userId: _editedProduct.userId,
                           );
                         },
                       ),
@@ -242,6 +245,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             imageUrl: _editedProduct.imageUrl,
                             id: _editedProduct.id,
                             isFavorite: _editedProduct.isFavorite,
+                            userId: _editedProduct.userId,
                           );
                         },
                       ),
@@ -297,13 +301,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               },
                               onSaved: (value) {
                                 _editedProduct = Product(
-                                  title: _editedProduct.title,
-                                  price: _editedProduct.price,
-                                  description: _editedProduct.description,
-                                  imageUrl: value.toString(),
-                                  id: _editedProduct.id,
-                                  isFavorite: _editedProduct.isFavorite,
-                                );
+                                    title: _editedProduct.title,
+                                    price: _editedProduct.price,
+                                    description: _editedProduct.description,
+                                    imageUrl: value.toString(),
+                                    id: _editedProduct.id,
+                                    isFavorite: _editedProduct.isFavorite,
+                                    userId: _editedProduct.userId);
                               },
                               onEditingComplete: () {
                                 setState(() {});

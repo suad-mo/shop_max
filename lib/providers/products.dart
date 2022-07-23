@@ -86,12 +86,23 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  Future<void> fetchAndSetProducts() async {
-    var url = Uri.https(
-      'shop-flutter-max-default-rtdb.europe-west1.firebasedatabase.app',
-      'products.json',
-      {'auth': authToken},
-    );
+  Future<void> fetchAndSetProducts([bool filterByUser = false]) async {
+    // var url = Uri.https(
+    //   'shop-flutter-max-default-rtdb.europe-west1.firebasedatabase.app',
+    //   'products.json',
+    //   {
+    //     'auth': authToken,
+    //     // 'orderBy': {
+    //     'creatorId': {
+    //       'equalTo': userId,
+    //     },
+    //     // }
+    //   },
+    // );
+    final filterString =
+        filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
+    var url = Uri.parse(
+        'https://shop-flutter-max-default-rtdb.europe-west1.firebasedatabase.app/products.json?auth=$authToken&$filterString');
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>?;
@@ -115,6 +126,7 @@ class Products with ChangeNotifier {
           imageUrl: prodData['imageUrl'],
           isFavorite:
               favoriteData == null ? false : favoriteData[prodId] ?? false,
+          userId: userId!,
         ));
       });
       _items = loadedProducts;
@@ -140,15 +152,16 @@ class Products with ChangeNotifier {
           'description': product.description,
           'imageUrl': product.imageUrl,
           'price': product.price,
+          'creatorId': userId,
         }),
       );
       final newProduct = Product(
-        title: product.title,
-        description: product.description,
-        price: product.price,
-        imageUrl: product.imageUrl,
-        id: json.decode(response.body)['name'],
-      );
+          title: product.title,
+          description: product.description,
+          price: product.price,
+          imageUrl: product.imageUrl,
+          id: json.decode(response.body)['name'],
+          userId: product.userId);
       _items.add(newProduct);
       // _items.insert(0, newProduct);//umetanje na početak liste
       notifyListeners();
