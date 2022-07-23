@@ -25,14 +25,17 @@ class Orders with ChangeNotifier {
   List<OrderItem> _orders = [];
 
   String? authToken;
+  String? userId;
 
   //Products(this.authToken, this._items);
 
   void update(Auth auth) {
     if (auth.token != null) {
       authToken = auth.token;
+      userId = auth.userId;
     } else {
       authToken = null;
+      userId = null;
     }
   }
 
@@ -43,7 +46,7 @@ class Orders with ChangeNotifier {
   Future<void> fetchAndSetOrders() async {
     final url = Uri.https(
       'shop-flutter-max-default-rtdb.europe-west1.firebasedatabase.app',
-      'orders.json',
+      'orders/$userId.json',
       {'auth': authToken},
     );
     try {
@@ -82,7 +85,7 @@ class Orders with ChangeNotifier {
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
     final url = Uri.https(
       'shop-flutter-max-default-rtdb.europe-west1.firebasedatabase.app',
-      'orders.json',
+      'orders/$userId.json',
       {'auth': authToken},
     );
     final timeStamp = DateTime.now();
