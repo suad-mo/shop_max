@@ -5,13 +5,14 @@ import '../providers/auth.dart';
 import '../providers/orders.dart';
 import '../providers/cart.dart';
 import '../providers/products.dart';
+import '../screens/splash_screen.dart';
+import '../screens/auth_screen.dart';
+import '../screens/products_overview_screen.dart';
 import '../screens/edit_product_screen.dart';
 import '../screens/user_products_screen.dart';
 import '../screens/cart_screen.dart';
 import '../screens/product_detail_screen.dart';
-import '../screens/products_overview_screen.dart';
 import '../screens/orders_screen.dart';
-import '../screens/auth_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -54,7 +55,15 @@ class MyApp extends StatelessWidget {
                 .copyWith(secondary: Colors.deepOrange),
             fontFamily: 'Lato',
           ),
-          home: auth.isAuth ? ProductOverviewScren() : AuthScreen(),
+          home: auth.isAuth
+              ? ProductOverviewScren()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (ctx, authResultSnapshot) =>
+                      authResultSnapshot.connectionState ==
+                              ConnectionState.waiting
+                          ? SplashScreen()
+                          : AuthScreen()),
           routes: {
             // ignore: prefer_const_constructors
             ProductDetailScreen.routeName: (ctx) => ProductDetailScreen(),

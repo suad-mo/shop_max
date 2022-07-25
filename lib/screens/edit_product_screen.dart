@@ -18,18 +18,18 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _imageUrlFocusNode = FocusNode();
   final _form = GlobalKey<FormState>();
   var _editedProduct = Product(
-    id: '',
+    id: null,
     title: '',
     description: '',
     price: 0,
     imageUrl: '',
-    userId: '',
+    // userId: '',
   );
   // ignore: prefer_final_fields
   Map<String, String> _initValue = {
     'title': '',
     'description': '',
-    'price': '0',
+    'price': '',
     'imageUrl': '',
   };
   var _isInit = true;
@@ -97,9 +97,9 @@ class _EditProductScreenState extends State<EditProductScreen> {
     setState(() {
       _isLoading = true;
     });
-    if (_editedProduct.id.isNotEmpty) {
+    if (_editedProduct.id != null) {
       await Provider.of<Products>(context, listen: false)
-          .updateProduct(_editedProduct.id, _editedProduct);
+          .updateProduct(_editedProduct.id!, _editedProduct);
     } else {
       try {
         await Provider.of<Products>(context, listen: false)
@@ -182,7 +182,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             imageUrl: _editedProduct.imageUrl,
                             id: _editedProduct.id,
                             isFavorite: _editedProduct.isFavorite,
-                            userId: _editedProduct.userId,
+                            // userId: _editedProduct.userId,
                           );
                         },
                       ),
@@ -216,7 +216,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             imageUrl: _editedProduct.imageUrl,
                             id: _editedProduct.id,
                             isFavorite: _editedProduct.isFavorite,
-                            userId: _editedProduct.userId,
+                            //userId: _editedProduct.userId,
                           );
                         },
                       ),
@@ -245,7 +245,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             imageUrl: _editedProduct.imageUrl,
                             id: _editedProduct.id,
                             isFavorite: _editedProduct.isFavorite,
-                            userId: _editedProduct.userId,
+                            //userId: _editedProduct.userId,
                           );
                         },
                       ),
@@ -301,13 +301,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
                               },
                               onSaved: (value) {
                                 _editedProduct = Product(
-                                    title: _editedProduct.title,
-                                    price: _editedProduct.price,
-                                    description: _editedProduct.description,
-                                    imageUrl: value.toString(),
-                                    id: _editedProduct.id,
-                                    isFavorite: _editedProduct.isFavorite,
-                                    userId: _editedProduct.userId);
+                                  title: _editedProduct.title,
+                                  price: _editedProduct.price,
+                                  description: _editedProduct.description,
+                                  imageUrl: value.toString(),
+                                  id: _editedProduct.id,
+                                  isFavorite: _editedProduct.isFavorite,
+                                  //userId: _editedProduct.userId
+                                );
                               },
                               onEditingComplete: () {
                                 setState(() {});

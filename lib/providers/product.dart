@@ -6,12 +6,12 @@ import 'package:http/http.dart' as http;
 //import '../models/http_exception.dart';
 
 class Product with ChangeNotifier {
-  final String id;
+  final String? id;
   final String title;
   final String description;
   final double price;
   final String imageUrl;
-  final String userId;
+  //final String userId;
   bool isFavorite;
 
   Product({
@@ -20,7 +20,7 @@ class Product with ChangeNotifier {
     required this.description,
     required this.price,
     required this.imageUrl,
-    required this.userId,
+    //required this.userId,
     this.isFavorite = false,
   });
 
