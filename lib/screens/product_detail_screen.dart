@@ -56,7 +56,7 @@ class ProductDetailScreen extends StatelessWidget {
                     softWrap: true,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 800,
                 )
               ],
