@@ -13,6 +13,7 @@ import '../screens/user_products_screen.dart';
 import '../screens/cart_screen.dart';
 import '../screens/product_detail_screen.dart';
 import '../screens/orders_screen.dart';
+import '../helpers/custom_route.dart';
 
 void main() {
   runApp(MyApp());
@@ -49,12 +50,17 @@ class MyApp extends StatelessWidget {
         builder: (ctx, auth, _) => MaterialApp(
           title: 'MyShop',
           theme: ThemeData(
-            // primarySwatch: Colors.purple,
-            // accentColor: Colors.deepOrange,
-            colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
-                .copyWith(secondary: Colors.deepOrange),
-            fontFamily: 'Lato',
-          ),
+              // primarySwatch: Colors.purple,
+              // accentColor: Colors.deepOrange,
+              colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
+                  .copyWith(secondary: Colors.deepOrange),
+              fontFamily: 'Lato',
+              pageTransitionsTheme: PageTransitionsTheme(
+                builders: {
+                  TargetPlatform.android: CustomPageTransitioBuilder(),
+                  TargetPlatform.iOS: CustomPageTransitioBuilder(),
+                },
+              )),
           home: auth.isAuth
               ? ProductOverviewScren()
               : FutureBuilder(
